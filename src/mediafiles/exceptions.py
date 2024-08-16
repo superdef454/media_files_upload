@@ -1,0 +1,2 @@
+class MediaFileNotFoundError(Exception):
+    pass

@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-fastapi = "^0.112.0"
+fastapi = "0.110.1"
 aiofiles = "^24.1.0"
 sqlalchemy = "^2.0.32"
 pydantic = "^2.8.2"
@@ -20,7 +20,8 @@ python-multipart = "^0.0.9"
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["RUF002", "D", "INP001", "RET504", "S311", "PERF203", "BLE001", "B008", "ANN003", "ERA001", "FA102"]
+ignore = ["RUF", "D", "INP001", "RET504", "S311", "PERF203",
+"BLE001", "B008", "ANN003", "ERA001", "FA102", "TRY301"]
 
 [tool.ruff]
 line-length = 120

@@ -9,7 +9,7 @@
             "module": "uvicorn",
             "cwd": "${workspaceFolder}/src",
             "args": [
-                "src.main:app",
+                "main:app",
                 "--reload"
             ],
             "jinja": true

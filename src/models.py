@@ -17,9 +17,3 @@ class CustomModel(BaseModel):
         json_encoders={datetime: datetime_to_gmt_str},
         populate_by_name=True,
     )
-
-    def serializable_dict(self, **kwargs) -> dict:  # noqa: ARG002
-        """Вернёт словарь, содержащий только сериализуемые поля."""
-        default_dict = self.model_dump()
-
-        return jsonable_encoder(default_dict)

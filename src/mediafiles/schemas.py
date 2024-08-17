@@ -1,10 +1,11 @@
 import datetime
 
+from pydantic import ConfigDict
+
 from models import CustomModel
 
 
-class MediaFile(CustomModel):
-    uid: int
+class MediaFileAdd(CustomModel):
     size: int  # размер в bytes
     format: str  # формат ('JPEG', 'MP3')
     original_name: str
@@ -12,3 +13,9 @@ class MediaFile(CustomModel):
     datetime_upload: datetime.datetime
     path: str
     # добавить пользователя
+
+
+class MediaFile(MediaFileAdd):
+    uid: int
+
+    model_config = ConfigDict(from_attributes=True)

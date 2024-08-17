@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "/home/superdef454/Рабочий стол/Учёба/media_files_upload"
+    ],
+    "python.analysis.include": [
+        "/home/superdef454/Рабочий стол/Учёба/media_files_upload"
+    ]
+}

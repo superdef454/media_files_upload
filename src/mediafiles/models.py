@@ -19,6 +19,7 @@ class MediaFileOrm(Model):
         default=lambda: datetime.datetime.now(datetime.timezone.utc),
     )
     path: Mapped[str] = mapped_column(String, nullable=False)
+    # Также можно использовать fastapi-storages в случае необходимости интеграции облачного хранилища
 
     def __repr__(self) -> str:
         return f"<MediaFileOrm(uid={self.uid}, original_name='{self.original_name}', format='{self.format}')>"

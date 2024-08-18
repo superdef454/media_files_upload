@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from config import settings
 from database import create_tables, delete_tables
+from mediafiles.exceptions import mediafiles_register_exception_handlers
 from mediafiles.router import router as mediafiles_router
 
 # FastAPI - не мой основной фреймворк и всех тонкостей могу не учесть, прошу оставить комментарии по улучшению коду
@@ -25,3 +26,4 @@ app = FastAPI(
 )
 
 app.include_router(mediafiles_router)
+mediafiles_register_exception_handlers(app)

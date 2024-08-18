@@ -2,7 +2,7 @@ import datetime
 
 from pydantic import ConfigDict
 
-from models import CustomModel
+from models import BaseResponse, CustomModel
 
 
 class MediaFileAdd(CustomModel):
@@ -19,3 +19,7 @@ class MediaFile(MediaFileAdd):
     uid: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class MediaFilesResponse(BaseResponse):
+    data: list[MediaFile] = []

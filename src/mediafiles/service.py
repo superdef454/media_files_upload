@@ -1,6 +1,7 @@
 from sqlalchemy import select
 
 from database import async_sessions
+from mediafiles.exceptions import MediaFileNotFoundError
 from mediafiles.models import MediaFileOrm
 from mediafiles.schemas import MediaFile, MediaFileAdd
 
@@ -27,8 +28,7 @@ class MediaFileService:
             return mediafile_schemas
 
     @classmethod
-    async def get_by_uid(cls, mediafile_uid: int) -> MediaFile:
+    async def get_by_uid(cls, mediafile_uid: int) -> MediaFile | None:
         async with async_sessions() as session:
             mediafile_model = await session.get(MediaFileOrm, mediafile_uid)
-            mediafile_schema = MediaFile.model_validate(mediafile_model)
-            return mediafile_schema
+            return MediaFile.model_validate(mediafile_model) if mediafile_model else None

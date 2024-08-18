@@ -1,6 +1,7 @@
+from dataclasses import dataclass
 from datetime import datetime
+from typing import Any
 
-from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, ConfigDict
 from zoneinfo import ZoneInfo
 
@@ -17,3 +18,14 @@ class CustomModel(BaseModel):
         json_encoders={datetime: datetime_to_gmt_str},
         populate_by_name=True,
     )
+
+
+class BaseResponse(BaseModel):
+    error_message: str | None
+    data: Any
+
+
+@dataclass
+class BaseError(Exception):
+    status_code: int
+    error_message: str

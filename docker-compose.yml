@@ -12,21 +12,60 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
 
-  # mediafiles:
-  #   build: 
-  #     context: .
-  #   volumes:
-  #     - ./:/web_map
-  #   ports:
-  #     - '8000:8000'
-  #   environment:
-  #     - SQL_ENGINE=django.db.backends.postgresql
-  #     - DB_HOST=postgre
-  #     - DB_NAME=MediaFiles
-  #     - DB_USER=postgres
-  #     - DB_PASS=postgres
-  #   env_file:
-  #     - ./.env.dev
-  #   depends_on:
-  #     postgre:
-  #       condition: service_healthy
+  nginx:
+    build: ./nginx
+    ports:
+      - 777:80
+    depends_on:
+      - src
+      - worker
+    volumes:
+      - ./media:/home/media
+
+  redis:
+    image: "redis:alpine"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  worker:
+    build: 
+      context: ./src
+    command: celery -A mediafiles.worker.celery worker --loglevel=info
+    volumes:
+      - ./media:/media
+      - ./src:/src
+    depends_on:
+      - redis
+
+  src:
+    build: 
+      context: ./src
+    command: >
+      sh -c "python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - ./media:/media
+      - ./src:/src
+    expose:
+      - 8000
+    environment:
+      - DB_HOST=postgre
+      - DB_NAME=MediaFiles
+      - DB_USER=postgres
+      - DB_PASS=postgres
+    env_file:
+      - ./.env
+      # TODO Настроить правильную передачу настроек в приложение
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgre:
+        condition: service_healthy
+    # Стоило бы также добавить healthcheck
+    # healthcheck:
+    #   test: curl -f http://localhost:8000/ || exit 1
+    #   interval: 5s
+    #   timeout: 2s
+    #   retries: 3

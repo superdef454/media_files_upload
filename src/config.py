@@ -15,6 +15,8 @@ class Config(BaseSettings):
     def database_url_asyncpg(self) -> str:
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
+    REDIS_URL: str
+
     # SITE_DOMAIN: str = "temp.com"
     # CORS_ORIGINS: list[str]
     # CORS_HEADERS: list[str]

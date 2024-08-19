@@ -25,3 +25,6 @@ async def validate_files_type(files: list[UploadFile]) -> list[UploadFile]:
         if file_extension not in mediafiles_settings.MEDIAFILES_TYPES:
             raise MediaFileNotAllowedExtensionError
     return files
+
+
+# Также можно добавить проверку на существование файла по размеру и пути

@@ -17,6 +17,9 @@ ruff = "^0.6.0"
 aiologger = "^0.7.0"
 uvicorn = "^0.30.6"
 python-multipart = "^0.0.9"
+aiohttp = "^3.10.4"
+celery = {extras = ["redis"], version = "^5.4.0"}
+asgiref = "^3.8.1"
 
 [tool.ruff.lint]
 select = ["ALL"]

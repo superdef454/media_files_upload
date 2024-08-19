@@ -6,13 +6,13 @@ from models import BaseResponse, CustomModel
 
 
 class MediaFileAdd(CustomModel):
-    size: int  # размер в bytes
-    format: str  # формат ('JPEG', 'MP3')
+    size: int
+    format: str
     original_name: str
-    extension: str  # расширение ('.jpg', '.mp3')
+    extension: str
     datetime_upload: datetime.datetime
     path: str
-    # добавить пользователя
+    # Также можно реализовать хранение пользователя, который загрузил в случае реализации авторизации
 
 
 class MediaFile(MediaFileAdd):

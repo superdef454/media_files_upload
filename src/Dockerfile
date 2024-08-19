@@ -11,5 +11,5 @@ WORKDIR /src
 # Запускает команду pip install для всех библиотек, перечисленных в req.txt
 RUN pip install -r requirements.txt
 
-COPY --chmod=555 entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+# COPY --chmod=555 entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+# ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

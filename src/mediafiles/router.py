@@ -12,6 +12,7 @@ from mediafiles.exceptions import (
 from mediafiles.schemas import MediaFile, MediaFilesResponse
 from mediafiles.service import MediaFileService
 from mediafiles.utils import file_save
+from mediafiles.worker import process_cloud_uploaded
 
 router = APIRouter(
     prefix="/mediafiles",
@@ -27,6 +28,8 @@ async def upload(files: list[UploadFile] = Depends(validate_files_type)) -> Medi
     tasks = [asyncio.create_task(file_save(file)) for file in files]
     mediafiles_to_add = await asyncio.gather(*tasks)
     mediafiles_uploaded = await MediaFileService.add(mediafiles_to_add)
+    # Вынесем загрузку файлов в облако в фон с помощью celery
+    process_cloud_uploaded.delay([mediafile.path for mediafile in mediafiles_uploaded])
     return MediaFilesResponse(data=mediafiles_uploaded)
 
 

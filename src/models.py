@@ -21,7 +21,7 @@ class CustomModel(BaseModel):
 
 
 class BaseResponse(BaseModel):
-    error_message: str | None
+    error_message: str = ""
     data: Any
 
 

@@ -1,7 +1,6 @@
 from sqlalchemy import select
 
 from database import async_sessions
-from mediafiles.exceptions import MediaFileNotFoundError
 from mediafiles.models import MediaFileOrm
 from mediafiles.schemas import MediaFile, MediaFileAdd
 

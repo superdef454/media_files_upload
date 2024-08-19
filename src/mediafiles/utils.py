@@ -7,10 +7,12 @@ from fastapi import UploadFile
 from mediafiles.config import mediafiles_logger, mediafiles_settings
 from mediafiles.exceptions import MediaFileUploadError
 from mediafiles.schemas import MediaFileAdd
+from models import datetime_to_gmt_str
 
 
 def get_file_path(filename: str) -> str:
-    file_path = os.path.join(mediafiles_settings.PATH_TO_SAVE, filename)
+    file_path = os.path.join(mediafiles_settings.PATH_TO_SAVE,
+                             f"{datetime_to_gmt_str(datetime.datetime.now(datetime.timezone.utc))}_{filename}")
     return file_path
 
 
@@ -22,9 +24,11 @@ async def file_save(file: UploadFile) -> MediaFileAdd:
     try:
         file_extension = get_file_extension(file.filename)
         file_path = get_file_path(file.filename)
-        contents = await file.read()
-        async with aiofiles.open(file_path, "wb") as f:
-            await f.write(contents)
+
+        async with aiofiles.open(file_path, "wb") as out_file:
+            while content := await file.read(1024):
+                await out_file.write(content)
+
     except Exception as e:
         await mediafiles_logger.error(f"Error uploading {file.filename}: {e}")
         raise MediaFileUploadError from e

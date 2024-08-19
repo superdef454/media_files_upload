@@ -14,8 +14,9 @@ poetry remove fastapi  `Удалить зависимость`
 poetry lock --no-update  `Обновляем лок`
 
 poetry export --without-hashes -f requirements.txt > requirements.txt  `Сделать requirements.txt для прода в папку src`  <!-- # TODO Собрать файл в конце -->
-<!-- poetry export --without-hashes --with dev -f requirements.txt > requirements-dev.txt  `Сделать requirements-dev.txt для разработки` -->
 
 ### Prod
 
 Установить зависимости из requirements.txt
+
+<!-- TODO Дописать README.md -->

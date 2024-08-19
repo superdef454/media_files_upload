@@ -31,3 +31,11 @@ class MediaFileService:
         async with async_sessions() as session:
             mediafile_model = await session.get(MediaFileOrm, mediafile_uid)
             return MediaFile.model_validate(mediafile_model) if mediafile_model else None
+
+    @classmethod
+    async def delete_by_uid(cls, mediafile_uid: int) -> None:
+        async with async_sessions() as session, session.begin():
+            mediafile_model = await session.get(MediaFileOrm, mediafile_uid)
+            if mediafile_model:
+                await session.delete(mediafile_model)
+                await session.commit()

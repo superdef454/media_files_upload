@@ -23,7 +23,8 @@ async def validate_files_type(files: list[UploadFile]) -> list[UploadFile]:
     for file in files:
         file_extension = get_file_extension(file.filename)
         if file_extension not in mediafiles_settings.MEDIAFILES_TYPES:
-            raise MediaFileNotAllowedExtensionError
+            raise MediaFileNotAllowedExtensionError(
+                error_message=f"Extension '{file_extension}' not allowed.")
     return files
 
 

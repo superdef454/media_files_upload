@@ -37,6 +37,9 @@ services:
     volumes:
       - ./media:/media
       - ./src:/src
+    env_file:
+      - .env
+      - .env.mediafiles
     depends_on:
       - redis
 
@@ -50,14 +53,9 @@ services:
       - ./src:/src
     expose:
       - 8000
-    environment:
-      - DB_HOST=postgre
-      - DB_NAME=MediaFiles
-      - DB_USER=postgres
-      - DB_PASS=postgres
     env_file:
-      - ./.env
-      # TODO Настроить правильную передачу настроек в приложение
+      - .env
+      - .env.mediafiles
     depends_on:
       redis:
         condition: service_healthy

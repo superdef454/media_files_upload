@@ -2,6 +2,7 @@ import asyncio
 
 from fastapi import APIRouter, Depends, UploadFile
 
+from mediafiles.config import mediafiles_settings
 from mediafiles.dependencies import valid_mediafile_uid, validate_files_type
 from mediafiles.exceptions import (
     MediaFileNotAllowedExtensionError,
@@ -21,7 +22,8 @@ router = APIRouter(
 
 
 @router.post("/upload",
-             description="Загрузка нескольких файлов на сервер",
+             description=f"Загрузка нескольких файлов на сервер"
+              f"{f' ({mediafiles_settings.MEDIAFILES_TYPES})' if mediafiles_settings.MEDIAFILES_TYPES else ''}",
              responses=get_responses_code([MediaFileNotAllowedExtensionError, MediaFileUploadError]))
 async def upload(files: list[UploadFile] = Depends(validate_files_type)) -> MediaFilesResponse:
     mediafiles_to_add = []

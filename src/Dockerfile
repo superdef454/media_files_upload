@@ -10,6 +10,10 @@ ADD ./ /src
 WORKDIR /src
 # Запускает команду pip install для всех библиотек, перечисленных в req.txt
 RUN pip install -r requirements.txt
+# Крон для очистки локального диска
+RUN apt-get update && apt-get install -y cron
+RUN chmod +x commands/cleanup.sh
+CMD ["cron", "-f"]
 
 # COPY --chmod=555 entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 # ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

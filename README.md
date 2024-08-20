@@ -19,4 +19,11 @@ poetry export --without-hashes -f requirements.txt > requirements.txt  `Сдел
 
 Установить зависимости из requirements.txt
 
-<!-- TODO Дописать README.md -->
+## Запуск проекта
+
+### Docker
+
+docker compose -f "docker-compose.yml" up -d --build
+
+После запуска проект будет располагаться здесь ([Документация](http://0.0.0.0:777/docs#/))
+

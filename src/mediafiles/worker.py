@@ -3,6 +3,7 @@ from celery import Celery
 
 from config import settings
 from mediafiles.cloud_client import CloudClient
+from mediafiles.schemas import MediaFile
 
 celery = Celery(
     "media_files_upload",
@@ -19,6 +20,7 @@ celery.conf.update(
    )
 
 @celery.task
-def process_cloud_uploaded(file_paths: list[str]):
+def process_cloud_uploaded(mediafiles_data: list[dict]):
+    mediafiles = [MediaFile(**mediafile_data) for mediafile_data in mediafiles_data]
     cloud_client = CloudClient()
-    async_to_sync(cloud_client.upload_files)(file_paths)
+    async_to_sync(cloud_client.upload_files)(mediafiles)

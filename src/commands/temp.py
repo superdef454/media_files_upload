@@ -1,16 +1,19 @@
+# Файл для теста чтобы не поднимать два сервиса
+import datetime
 import os
 
 import aiofiles
 import websockets
+from asgiref.sync import async_to_sync
 
-from mediafiles.config import mediafiles_logger, mediafiles_settings
+from mediafiles.config import mediafiles_logger
 from mediafiles.schemas import MediaFile
 
 
 class CloudClient:
     """Пример клиент для отправки файлов в облако."""
     def __init__(self) -> None:
-        self.cloud_url: str = mediafiles_settings.CLOUD_URL
+        self.cloud_url: str = "ws://0.0.0.0:777/mediafiles/upload/ws"
 
     async def upload_files(self, mediafiles: list[MediaFile]):
         async with websockets.connect(self.cloud_url) as websocket:
@@ -28,3 +31,15 @@ class CloudClient:
                 await websocket.send(b'')
             # Отправляем сигнал окончания передачи файлов
             await websocket.send("END")
+
+client = CloudClient()
+files = [MediaFile(
+        uid=1,
+        size=123456,
+        format='image/jpeg',
+        original_name='Q0g0lQcL66pX_f_djMwW5a3BtKSeVbzajBV-6UPpIblIY-yYKZ_1ZS8PwSYdqsKf05PnrobHwQ7ge3L7TFfVUCBl.jpg',
+        extension='.jpg',
+        datetime_upload=datetime.datetime.now(),
+        path='/media_files_upload/media/2024-08-19T12:24:28+0000_Q0g0lQcL66pX_f_djMwW5a3BtKSeVbzajBV-6UPpIblIY-yYKZ_1ZS8PwSYdqsKf05PnrobHwQ7ge3L7TFfVUCBl.jpg',
+)]
+async_to_sync(client.upload_files)(files)

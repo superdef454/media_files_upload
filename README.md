@@ -27,3 +27,6 @@ docker compose -f "docker-compose.yml" up -d --build
 
 После запуска проект будет располагаться здесь ([Документация](http://0.0.0.0:777/docs#/))
 
+### WebSoket
+
+![check websocket](media/gg3f2ae0d9f3.gif)
